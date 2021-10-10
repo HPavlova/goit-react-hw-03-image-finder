@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Searchbar from './components/Searchbar';
 import ImageGallery from './components/ImageGallery';
-import Button from './components/Button';
+import Button from './components/button/Button';
 import Modal from './components/Modal';
 
 class App extends Component {
@@ -88,13 +88,17 @@ class App extends Component {
   };
 
   render() {
-    const { images, status, showModal, tags, largeImageURL } = this.state;
+    const { images, status, showModal, tags, webformatURL, largeImageURL } =
+      this.state;
 
     return (
       <>
         <Searchbar onSubmit={this.onSubmit} />
         <ImageGallery
           images={images}
+          tags={tags}
+          webformatURL={webformatURL}
+          largeImageUR={largeImageURL}
           status={status}
           setModalImg={this.setModalImg}
         />
