@@ -1,22 +1,16 @@
 import React from 'react';
-// import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-const Button = () => {
-  <button>Load more</button>;
-  window.scrollTo({
-    top: document.documentElement.scrollHeight,
-    behavior: 'smooth',
-  });
+const Button = ({ onLoadMore }) => {
+  return (
+    <button type="button" onClick={onLoadMore}>
+      Load more
+    </button>
+  );
 };
 
 Button.propTypes = {
-  // onDeleteContact: propTypes.func,
-  // contacts: propTypes.arrayOf(propTypes.object),
-  // contact: propTypes.shape({
-  //   id: propTypes.string.isRequired,
-  //   name: propTypes.string.isRequired,
-  //   number: propTypes.string.isRequired,
-  // }),
+  onLoadMore: PropTypes.func.isRequired,
 };
 
 export default Button;

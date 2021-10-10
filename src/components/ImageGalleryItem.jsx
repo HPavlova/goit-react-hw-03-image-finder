@@ -1,20 +1,29 @@
 import React from 'react';
-// import propTypes from 'prop-types';
+import propTypes from 'prop-types';
 
-const ImageGalleryItem = () => {
-  <li className="ImageGalleryItem">
-    <img src="" alt="" className="ImageGalleryItem-image" />
-  </li>;
+const ImageGalleryItem = ({
+  tags,
+  webformatURL,
+  largeImageURL,
+  setModalImg,
+}) => {
+  return (
+    <li className="ImageGalleryItem" onClick={setModalImg}>
+      <img
+        src={webformatURL}
+        alt={tags}
+        className="ImageGalleryItem-image"
+        onClick={() => setModalImg({ largeImageURL, tags })}
+      />
+    </li>
+  );
 };
 
 ImageGalleryItem.propTypes = {
-  // onDeleteContact: propTypes.func,
-  // contacts: propTypes.arrayOf(propTypes.object),
-  // contact: propTypes.shape({
-  //   id: propTypes.string.isRequired,
-  //   name: propTypes.string.isRequired,
-  //   number: propTypes.string.isRequired,
-  // }),
+  setModalImg: propTypes.func.isRequired,
+  tags: propTypes.string.isRequired,
+  webformatURL: propTypes.string.isRequired,
+  largeImageURL: propTypes.string.isRequired,
 };
 
 export default ImageGalleryItem;

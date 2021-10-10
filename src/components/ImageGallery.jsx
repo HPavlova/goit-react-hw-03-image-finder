@@ -1,22 +1,50 @@
-import React from 'react';
-// import propTypes from 'prop-types';
+import { Component } from 'react';
+import propTypes from 'prop-types';
+
+import { toast } from 'react-toastify';
 
 import ImageGalleryItem from './ImageGalleryItem';
+import Load from './Load';
 
-const ImageGallery = () => {
-  <ul className="ImageGallery">
-    <ImageGalleryItem />
-  </ul>;
-};
+class ImageGallery extends Component {
+  render() {
+    const { images, status, setModalImg } = this.props;
+
+    if (status === 'idle') {
+      return toast.error('Введите название изображения');
+    }
+
+    if (status === 'pending') {
+      return <Load />;
+    }
+
+    if (status === 'rejected') {
+      return toast.error('Упс! Что-то пошло не так');
+    }
+
+    if (status === 'resolved') {
+      return (
+        <ul className="ImageGallery">
+          {images.map(({ webformatURL, largeImageURL, tags, id }) => (
+            <ImageGalleryItem
+              key={id}
+              tags={tags}
+              webformatURL={webformatURL}
+              largeImageUR={largeImageURL}
+              status={status}
+              setModalImg={setModalImg}
+            />
+          ))}
+        </ul>
+      );
+    }
+  }
+}
 
 ImageGallery.propTypes = {
-  // onDeleteContact: propTypes.func,
-  // contacts: propTypes.arrayOf(propTypes.object),
-  // contact: propTypes.shape({
-  //   id: propTypes.string.isRequired,
-  //   name: propTypes.string.isRequired,
-  //   number: propTypes.string.isRequired,
-  // }),
+  images: propTypes.array.isRequired,
+  status: propTypes.string.isRequired,
+  setModalImg: propTypes.func.isRequired,
 };
 
 export default ImageGallery;
