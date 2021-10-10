@@ -8,7 +8,7 @@ const ImageGalleryItem = ({
   setModalImg,
 }) => {
   return (
-    <li className="ImageGalleryItem" onClick={setModalImg}>
+    <li className="ImageGalleryItem">
       <img
         src={webformatURL}
         alt={tags}

@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { toast } from 'react-toastify';
 
@@ -7,6 +7,12 @@ import ImageGalleryItem from './ImageGalleryItem';
 import Load from './Load';
 
 class ImageGallery extends Component {
+  static propTypes = {
+    images: PropTypes.array.isRequired,
+    status: PropTypes.string.isRequired,
+    setModalImg: PropTypes.func.isRequired,
+  };
+
   render() {
     const { images, status, setModalImg } = this.props;
 
@@ -30,8 +36,7 @@ class ImageGallery extends Component {
               key={id}
               tags={tags}
               webformatURL={webformatURL}
-              largeImageUR={largeImageURL}
-              status={status}
+              largeImageURL={largeImageURL}
               setModalImg={setModalImg}
             />
           ))}
@@ -40,11 +45,5 @@ class ImageGallery extends Component {
     }
   }
 }
-
-ImageGallery.propTypes = {
-  images: propTypes.array.isRequired,
-  status: propTypes.string.isRequired,
-  setModalImg: propTypes.func.isRequired,
-};
 
 export default ImageGallery;
