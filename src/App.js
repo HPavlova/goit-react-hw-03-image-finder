@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import './App.css';
 
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Searchbar from './components/Searchbar';
@@ -23,6 +23,7 @@ class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    console.log(prevState);
     const prevName = prevState.query;
     const nextName = this.state.query;
 
@@ -42,25 +43,29 @@ class App extends Component {
     )
       .then(response => {
         if (response.ok) {
+          // console.log(images.length);
+
+          // if (images.length === 0) {
+          //   return toast.error(`Нет изображения с названием ${query}`);
+          // }
+
           return response.json();
         }
-        return Promise.reject(
-          toast.error(`Нет изображения с названием ${query}`),
-        );
+        return Promise.reject(this.setState({ status: 'rejected' }));
       })
       .then(array => {
-        const images = array.hits;
-
         this.setState(prevState => ({
+          images: [...prevState.images, ...array.hits],
           page: prevState.page + 1,
-          images: [...prevState.images, ...images],
           status: 'resolved',
         }));
-        if (page !== 1) {
+
+        if (page > 1) {
           this.handleScroll();
         }
       })
-      .catch(error => this.setState({ error, status: 'rejected' }));
+      .catch(error => this.setState({ error, status: 'rejected' }))
+      .finally(() => this.setState({ status: 'resolved' }));
   };
 
   toggleModal = () => {
@@ -80,11 +85,7 @@ class App extends Component {
   };
 
   onSubmit = query => {
-    this.setState({ query: query });
-  };
-
-  onLoadMore = () => {
-    this.fetchImages();
+    this.setState({ query: query, page: 1 });
   };
 
   render() {
@@ -102,7 +103,7 @@ class App extends Component {
           status={status}
           setModalImg={this.setModalImg}
         />
-        {images.length > 0 && <Button onLoadMore={this.onLoadMore} />}
+        {images.length > 0 && <Button onLoadMore={this.fetchImages} />}
         {showModal && (
           <Modal onClose={this.toggleModal}>
             <img src={largeImageURL} alt={tags} />

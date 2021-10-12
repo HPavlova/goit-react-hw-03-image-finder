@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { toast } from 'react-toastify';
+
 class Searchbar extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
@@ -12,7 +14,6 @@ class Searchbar extends Component {
 
   handleNameChange = e => {
     this.setState({ query: e.currentTarget.value.toLowerCase() });
-    // console.log(e.currentTarget.value);
   };
 
   handleSubmit = e => {
@@ -21,11 +22,12 @@ class Searchbar extends Component {
     const { query } = this.state;
 
     if (query.trim() === '') {
+      toast.error('Введите название изображения');
       return;
     }
 
     this.props.onSubmit(query);
-    this.setState({ query: '' });
+    // this.setState({ query: '' });
   };
 
   render() {

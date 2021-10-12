@@ -17,7 +17,7 @@ class ImageGallery extends Component {
     const { images, status, setModalImg } = this.props;
 
     if (status === 'idle') {
-      return toast.error('Введите название изображения');
+      return <></>;
     }
 
     if (status === 'pending') {
